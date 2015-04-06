@@ -33,11 +33,12 @@ func createDebit(token string, amount uint64, description string) *stripe.Charge
 	params := &stripe.ChargeParams{
 		Amount:   amount,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Token: token,
-		},
 		Desc: description,
 	}
+
+	params.SetSource(&stripe.CardParams{
+		Token: token,
+	})
 
 	ch, err := charge.New(params)
 
